@@ -101,11 +101,13 @@ jobs:
           git config --global user.email "github-actions@github.com"
 
       - name: Get Latest Tag from GitHub Container Registry
-        id: get_tag
         run: |
-          LATEST_TAG=$(curl -s "https://ghcr.io/v2/${{ github.repository }}/tags/list" | jq -r '.tags | map(select(test("^[0-9]+$"))) | sort_by(tonumber) | last' || echo 0)
+          LATEST_TAG=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://ghcr.io/v2/${{ github.repository }}/tags/list" \
+            | jq -r '.tags // [] | sort | last' || echo "latest")
+      
           echo "new_tag=$LATEST_TAG" >> $GITHUB_ENV
-
+        
       - name: Update Deployment File in `argocd-train`
         run: |
           cd argocd-train
