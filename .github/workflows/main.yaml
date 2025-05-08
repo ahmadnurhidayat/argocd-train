@@ -88,7 +88,7 @@ jobs:
             echo "No changes to commit."
           else
             git add k8s/deployment.yaml
-            git commit -m "Updated deployment with new image tag: ${{ env.new_tag }}"
+            git commit -m "Updated Deployment with new image tag: ${{ env.IMAGE_TAG }}"
             git push https://ahmadnurhidayat:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main
           fi
 
@@ -106,7 +106,7 @@ jobs:
   #           "summary": "GitHub Actions Workflow Completed",
   #           "themeColor": "00FF00",
   #           "title": "  Build & Deployment Successful",
-  #           "text": "**Repository:** algn48/node-todo\n**New Tag:** ${{ env.new_tag }}\n[View Docker Hub](https://hub.docker.com/r/algn48/node-todo)"
+  #           "text": "**Repository:** algn48/node-todo\n**New Tag:** ${{ env.IMAGE_TAG }}"\n[View Docker Hub](https://hub.docker.com/r/algn48/node-todo)"
   #         }' ${{ secrets.TEAMS_WEBHOOK_URL }}
 
   #     - name: Send Teams Notification on Failure
