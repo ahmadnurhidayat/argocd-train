@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: argocd-train-app
-        image: ghcr.io/ahmadnurhidayat/argocd-train
+        image: ghcr.io/ahmadnurhidayat/argocd-train:null
         imagePullPolicy: IfNotPresent
         workingDir: /app
         ports:
