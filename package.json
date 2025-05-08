@@ -1,5 +1,5 @@
 {
-  "name": "101-app",
+  "name": "argocd-train",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -29,5 +29,7 @@
     "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1"
-  }
+  },
+  "description": "This repository automates the **CI/CD pipeline** for the **Node.js Todo App** using **GitHub Actions, Docker, Kubernetes, ArgoCD, and Sealed Secrets**. The workflow builds and pushes the application Docker image to Docker Hub, encrypts sensitive data with the kubeseal CLI, updates the ArgoCD GitOps repo with the latest Deployment and SealedSecret manifests, triggers a deployment, and sends success or failure alerts to **Microsoft Teams** via an incoming webhook.",
+  "author": ""
 }
