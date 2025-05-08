@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-db
+  name: mysql
 spec:
-  serviceName: mysql-db-service
-  replicas: 1
   selector:
     matchLabels:
-      app: mysql-db
+      app: mysql
+  serviceName: mysql-service
+  replicas: 1
   template:
     metadata:
       labels:
-        app: mysql-db
+        app: mysql
     spec:
       containers:
-      - name: mysql-db
-        image: mysql:8.4
+      - name: mysql
+        image: mysql:8.0
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: secret
@@ -24,24 +24,20 @@ spec:
         ports:
         - containerPort: 3306
         volumeMounts:
-        - name: mysql-db-storage
-          mountPath: /var/lib/mysql-db
-  volumeClaimTemplates:
-  - metadata:
-      name: mysql-db-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-db-service
+  name: mysql-service
 spec:
   selector:
-    app: mysql-db
+    app: mysql
   ports:
   - protocol: TCP
     port: 3306
@@ -51,7 +47,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-db-pvc
+  name: mysql-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -62,12 +58,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-db-pv
+  name: mysql-pv
 spec:
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /mnt/data/mysql-db
+    path: /mnt/data/mysql
 
