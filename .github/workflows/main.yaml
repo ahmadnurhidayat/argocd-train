@@ -110,6 +110,8 @@ jobs:
         run: |
           cd argocd-train
           sed -i "s|image: ghcr.io/ahmadnurhidayat/argocd-train:.*|image: ghcr.io/ahmadnurhidayat/argocd-train:${{ env.new_tag }}|g" k8s/deployment.yaml
+          sed -i "s|image: ghcr.io/ahmadnurhidayat/argocd-train.*|image: ghcr.io/ahmadnurhidayat/argocd-train:${{ env.new_tag }}|g"
+
 
       - name: Commit and Push Changes to `argocd-train` Repository
         env:

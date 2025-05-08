@@ -7,7 +7,7 @@ metadata:
     app: argocd-train-app
     env: preprod
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: argocd-train-app
@@ -21,12 +21,13 @@ spec:
       containers:
       - name: argocd-train-app
         image: ghcr.io/ahmadnurhidayat/argocd-train
+        imagePullPolicy: IfNotPresent
         workingDir: /app
         ports:
         - containerPort: 3000
         env:
         - name: MYSQL_HOST
-          value: mysql-db-service
+          value: mysql-service
         - name: MYSQL_USER
           value: root
         - name: MYSQL_PASSWORD
