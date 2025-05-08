@@ -109,9 +109,15 @@ jobs:
       - name: Update Deployment File in `argocd-train`
         run: |
           cd argocd-train
-          sed -i "s|image: ghcr.io/ahmadnurhidayat/argocd-train:.*|image: ghcr.io/ahmadnurhidayat/argocd-train:${{ env.new_tag }}|g" k8s/deployment.yaml
-          sed -i "s|image: ghcr.io/ahmadnurhidayat/argocd-train.*|image: ghcr.io/ahmadnurhidayat/argocd-train:${{ env.new_tag }}|g"
-
+      
+          # Make sure the file exists before editing
+          if [ ! -f k8s/deployment.yaml ]; then
+            echo "❌ File k8s/deployment.yaml not found."
+            exit 1
+          fi
+      
+          # Replace the image line safely (handles with or without tag)
+          sed -i "s|image: ghcr.io/ahmadnurhidayat/argocd-train.*|image: ghcr.io/ahmadnurhidayat/argocd-train:${{ env.new_tag }}|g" k8s/deployment.yaml
 
       - name: Commit and Push Changes to `argocd-train` Repository
         env:
