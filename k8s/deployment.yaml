@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app
+  name: argocd-train-app
+  namespace: training
+  labels:
+    app: argocd-train-app
+    env: preprod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: node-app
+      app: argocd-train-app
+      env: preprod
   template:
     metadata:
       labels:
-        app: node-app
+        app: argocd-train-app
+        env: preprod
     spec:
       containers:
-      - name: node-app
-        image: algn48/node-todo:10
+      - name: argocd-train-app
+        image: ghcr.io/ahmadnurhidayat/argocd-train
         workingDir: /app
         ports:
         - containerPort: 3000
@@ -31,10 +37,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: node-app-service
+  name: argocd-train-app-svc
 spec:
   selector:
-    app: node-app
+    app: argocd-train-app
+    env: preprod
   ports:
   - protocol: TCP
     port: 3000
