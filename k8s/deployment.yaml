@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: argocd-train-app
-  namespace: training
   labels:
     app: argocd-train-app
     env: preprod
@@ -47,4 +46,4 @@ spec:
   - protocol: TCP
     port: 3000
     targetPort: 3000
-  type: NodePort
+  type: ClusterIP
