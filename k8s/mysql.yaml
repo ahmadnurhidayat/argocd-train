@@ -16,6 +16,8 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
+        args:
+        - --innodb_force_recovery=1
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: secret
